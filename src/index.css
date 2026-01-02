@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+    /* --- Cores do Tema (Sky Blue - Confiança e Saúde) --- */
+    --color-primary-500: #0EA5E9; /* Cor Principal (Botões) */
+    --color-primary-600: #0284C7; /* Hover */
+    --color-primary-700: #0369A1; /* Active/Click */
+  
+    /* --- Tons de Cinza (Slate - Baseado em tons frios) --- */
+    
+    /* Textos */
+    --color-gray-950: #020617; /* Títulos / Contraste Máximo */
+    --color-gray-900: #0F172A; /* Texto Principal */
+    --color-gray-800: #1E293B; /* Texto Secundário */
+    --color-gray-700: #334155; /* Texto de apoio */
+    
+    /* Bordas e Divisórias */
+    --color-gray-400: #94A3B8; /* Bordas de inputs/cards */
+    --color-gray-200: #E2E8F0; /* Bordas sutis */
+
+    /* Backgrounds (Tema Claro) */
+    --color-gray-50: #F8FAFC;  /* Fundo da Página (Background) */
+    --color-white: #FFFFFF;    /* Fundo de Cards e Modais */
+  
+    /* --- Status do Agendamento --- */
+    --color-red-500: #F43F5E;    /* (Cancelado ) */
+    --color-green-500: #10B981;  /* (Confirmado/Concluído) */
+    --color-yellow-500: #F59E0B; /* (Pendente/Atenção) */
+    --color-blue-500: #3B82F6;   /* (Agendado Padrão) */
+  
+    /* --- Fontes --- */
+    --font-sans: "Inter", system-ui, sans-serif;
+}
+
+body {
+    @apply bg-gray-50 text-gray-900 min-h-screen font-sans
+}
+
+.container-app {
+    @apply max-w-7xl mx-auto px-4
+}
