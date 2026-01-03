@@ -1,7 +1,7 @@
 const Dashboard = () => {
   return (
     <div>
-      <h1>Olá, Dashboard!</h1>
+      <div className="container-app"></div>
     </div>
   );
 };

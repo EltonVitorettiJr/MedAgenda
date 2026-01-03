@@ -1,12 +1,18 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 import Logo from "../assets/logo.png";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import Input from "../components/Input";
+import { useAuth } from "../context/AuthContext";
 import { type UserType, userSchema } from "../schemas/userSchema";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { logInSupabase } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -15,8 +21,18 @@ const Login = () => {
     resolver: yupResolver(userSchema),
   });
   const onSubmit = async (data: UserType) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log(data);
+    const error = await logInSupabase(data);
+
+    if (error) {
+      console.error(error);
+      toast.error("E-mail ou senha incorretos.");
+      return;
+    }
+
+    toast.success("Login realizado com sucesso!");
+    setTimeout(() => {
+      navigate("/agenda");
+    }, 1000);
   };
 
   return (
@@ -25,7 +41,7 @@ const Login = () => {
         <img src={Logo} alt="Logo Dr. Omar" className="w-52" />
 
         <h1 className="text-primary-500 text-4xl font-semibold mb-6">
-          Dr. Omar
+          MedAgenda
         </h1>
 
         <Card hover className="w-full max-w-md h-fit">
