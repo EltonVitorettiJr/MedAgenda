@@ -40,3 +40,64 @@ body {
 .container-app {
     @apply max-w-7xl mx-auto px-4
 }
+
+/* --- Customização do FullCalendar --- */
+.fc {
+  font-family: var(--font-sans); /* Usa sua fonte Inter */
+  --fc-border-color: #e2e8f0;    /* gray-200 */
+  --fc-button-text-color: #fff;
+  --fc-button-bg-color: var(--color-primary-500);
+  --fc-button-border-color: var(--color-primary-500);
+  --fc-button-hover-bg-color: var(--color-primary-600);
+  --fc-button-hover-border-color: var(--color-primary-600);
+  --fc-button-active-bg-color: var(--color-primary-700);
+  --fc-today-bg-color: #f8fafc;  /* gray-50 */
+  --fc-event-bg-color: var(--color-primary-500);
+  --fc-event-border-color: var(--color-primary-500);
+}
+
+/* Remove o sublinhado azul feio nos links de dia */
+.fc-col-header-cell-cushion, .fc-daygrid-day-number {
+  color: var(--color-gray-700);
+  text-decoration: none !important;
+}
+
+.fc-col-header-cell-cushion:hover {
+  color: var(--color-primary-500);
+}
+
+/* Deixa o evento com cantos arredondados e bonitos */
+.fc-event {
+  border-radius: 4px;
+  padding: 1px 2px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.fc-event:hover {
+  opacity: 0.9;
+}
+
+.fc-toolbar-title {
+    text-transform: capitalize;
+}
+
+.fc-header-toolbar {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active {
+    border: none;
+}
+
+.fc .fc-button:focus,
+.fc .fc-button-primary:focus,
+.fc .fc-button-primary:not(:disabled):active:focus,
+.fc .fc-button-primary:not(:disabled).fc-button-active:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
