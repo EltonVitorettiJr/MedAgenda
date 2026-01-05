@@ -1,19 +1,23 @@
-import type { DateSelectArg } from "@fullcalendar/core/index.js";
+import type {
+  DateSelectArg,
+  EventClickArg,
+  EventSourceInput,
+} from "@fullcalendar/core/index.js";
 import ptBrLocale from "@fullcalendar/core/locales/pt-br";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import type { AppointmentType } from "../types/appointment";
 
 // Interface para as props (vamos usar no futuro para passar os eventos do Supabase)
 interface AgendaProps {
-  events: AppointmentType[]; // Por enquanto any, depois tipamos com a tabela do banco
+  events: EventSourceInput; // Por enquanto any, depois tipamos com a tabela do banco
   onSelectSlot: (arg: DateSelectArg) => void;
+  onEventClick: (arg: EventClickArg) => void;
 }
 
-const Agenda = ({ events = [], onSelectSlot }: AgendaProps) => {
+const Agenda = ({ events = [], onSelectSlot, onEventClick }: AgendaProps) => {
   return (
     <div className="h-[calc(100vh-180px)] bg-white rounded-lg shadow-sm p-4 border border-gray-200">
       <FullCalendar
@@ -26,7 +30,7 @@ const Agenda = ({ events = [], onSelectSlot }: AgendaProps) => {
         }}
         locale={ptBrLocale} // Tradução PT-BR
         slotMinTime="07:00:00" // O consultório abre as 7h
-        slotMaxTime="19:00:00" // Fecha as 19h
+        slotMaxTime="22:00:00" // Fecha as 19h
         allDaySlot={false} // Remove a linha de "Dia Inteiro" (foco em horário marcado)
         slotDuration="00:30:00" // Consultas de 30 em 30 min
         expandRows={true} // Ocupa a altura toda disponível
@@ -36,11 +40,11 @@ const Agenda = ({ events = [], onSelectSlot }: AgendaProps) => {
         eventClassNames="bg-primary-500 border-none text-white text-xs font-semibold rounded px-1"
         // Interações (vamos configurar depois)
         selectable={true}
-        editable={true} // Permite arrastar (drag & drop)
+        editable={false} // Permite arrastar (drag & drop)
         // Clique na data (vazio)
         dateClick={(arg) => console.log("Clicou na data:", arg.dateStr)}
         // Clique no evento (agendamento)
-        eventClick={(arg) => console.log("Clicou no evento:", arg.event.title)}
+        eventClick={onEventClick}
         selectMirror={true}
         select={onSelectSlot}
       />

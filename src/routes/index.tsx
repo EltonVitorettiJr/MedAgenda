@@ -4,6 +4,7 @@ import { AuthProvider } from "../context/AuthContext";
 import UserLayout from "../layouts/UserLayout";
 import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
+import Patients from "../pages/Patients";
 import PrivateRoutes from "./PrivateRoutes";
 
 const AppRoutes = () => {
@@ -32,6 +33,7 @@ const AppRoutes = () => {
                 element={<Navigate to="/agenda" replace />}
               ></Route>
               <Route path="/agenda" element={<Dashboard></Dashboard>}></Route>
+              <Route path="/pacientes" element={<Patients />}></Route>
               <Route path="*" element={<h2>Página não encontrada.</h2>}></Route>
             </Route>
           </Route>

@@ -29,7 +29,9 @@ const Input = ({
       )}
 
       <div className="relative">
-        {icon && <div className="absolute">{icon}</div>}
+        {icon && (
+          <div className="absolute top-1.5 left-1.5 text-gray-400">{icon}</div>
+        )}
       </div>
 
       <input
