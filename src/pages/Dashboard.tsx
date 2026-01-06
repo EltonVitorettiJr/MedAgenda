@@ -33,6 +33,8 @@ import {
 interface OptionsProps {
   label: string;
   value: string;
+  guardianName: string;
+  phone: string;
 }
 
 const Dashboard = () => {
@@ -69,6 +71,8 @@ const Dashboard = () => {
     const newPatients = data.map((patient) => ({
       value: patient.id,
       label: patient.fullName,
+      guardianName: patient.guardianName,
+      phone: patient.phone,
     }));
 
     setPatients(newPatients);
@@ -102,8 +106,8 @@ const Dashboard = () => {
 
     setValue("patientName", title);
     setValue("notes", extendedProps.notes);
-    setValue("phone", extendedProps.phone || "");
-    setValue("guardianName", extendedProps.guardianName || "");
+    setValue("phone", extendedProps.phone);
+    setValue("guardianName", extendedProps.guardianName);
     setValue("healthInsurance", extendedProps.healthInsurance);
     setValue("appointmentType", extendedProps.appointmentType);
 
@@ -151,6 +155,7 @@ const Dashboard = () => {
     setValue,
     reset,
     control,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<AppointmentData>({
     resolver: yupResolver(appointmentSchema) as Resolver<AppointmentData>,
@@ -186,6 +191,19 @@ const Dashboard = () => {
       toast.error("Erro ao agendar. Tente novamente.");
     }
   };
+
+  const selectedPatientVal = watch("patientName");
+
+  useEffect(() => {
+    if (selectedPatientVal && patients.length > 0) {
+      const foundPatient = patients.find((p) => p.value === selectedPatientVal);
+
+      if (foundPatient) {
+        setValue("guardianName", foundPatient.guardianName || "");
+        setValue("phone", foundPatient.phone || "");
+      }
+    }
+  }, [selectedPatientVal, patients, setValue]);
 
   return (
     <div className="flex items-center justify-center h-full">

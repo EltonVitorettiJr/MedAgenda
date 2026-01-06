@@ -10,7 +10,7 @@ const PrivateRoutes = () => {
     </div>
   );
 
-  if (!authState.user) return <Navigate to="/login" replace></Navigate>;
+  if (!authState.user.id) return <Navigate to="/login" replace></Navigate>;
 
   return <Outlet />;
 };

@@ -1,30 +1,42 @@
-import { useEffect, useState } from "react";
-import { getPatients } from "../services/patients";
-import type { PatientsData } from "../types/patients";
+import { Phone, ShieldUser, Trash, User } from "lucide-react";
+import type { PatientsType } from "../types/patients";
 import Card from "./Card";
 
-const RenderPatients = () => {
-  const [patients, setPatients] = useState<PatientsData[]>();
+interface RenderPatientsProps {
+  patients: PatientsType[];
+  handleDelete: (PatientId: string) => void;
+}
 
-  useEffect(() => {
-    const fetchPatients = async () => {
-      const data = await getPatients();
-
-      setPatients(data);
-    };
-    fetchPatients();
-  }, []);
-
+const RenderPatients = ({ patients, handleDelete }: RenderPatientsProps) => {
   return (
     <div>
       <div className="container-app grid grid-cols-3 gap-2">
-        {patients?.map((patient) => (
-          <Card key={patient.id}>
-            <h2>Paciente: {patient.fullName}</h2>
+        {patients.map((patient) => (
+          <Card className="relative group transition-all" key={patient.id}>
+            <button
+              type="button"
+              className="cursor-pointer transition-all opacity-0 group-hover:opacity-100 hover:text-red-500"
+              onClick={() => handleDelete(patient.id)}
+            >
+              <Trash
+                className="absolute top-2 right-2 hover:bg-red-200 p-1 rounded-full"
+                size={26}
+              />
+            </button>
+            <div className="flex items-center justify-start gap-1 border-b border-gray-600 h-6">
+              <User size={16} />
+              <h2>Paciente: {patient.fullName}</h2>
+            </div>
             {patient.guardianName && (
-              <h3>Responsável: {patient.guardianName}</h3>
+              <div className="flex items-center justify-start gap-1 border-b border-gray-600 h-6">
+                <ShieldUser size={16} />
+                <h3>Responsável: {patient.guardianName}</h3>
+              </div>
             )}
-            <h4>Telefone: {patient.phone}</h4>
+            <div className="flex items-center justify-start gap-1 border-b border-gray-600 h-6">
+              <Phone size={16} />
+              <h4>Telefone: {patient.phone}</h4>
+            </div>
           </Card>
         ))}
       </div>

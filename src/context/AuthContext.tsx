@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useNavigate } from "react-router";
 import type { UserType } from "../schemas/userSchema";
 import { supabase } from "../services/supabase";
 import type { AuthStateInterface } from "../types/auth";
@@ -28,6 +29,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     },
     error: null,
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const formatSessiontoState = (session: Session | null) => {
@@ -80,6 +83,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logOutSupabase = async () => {
     await supabase.auth.signOut();
+    navigate("/login");
   };
 
   return (

@@ -1,6 +1,12 @@
-export interface PatientsData {
+export interface PatientsType {
   id: string;
   fullName: string;
-  phone: string | null;
-  guardianName: string | null;
+  phone: string;
+  guardianName: string;
+}
+
+export interface PatientsData {
+  patientName: string;
+  phone: string;
+  guardianName: string;
 }

@@ -101,3 +101,7 @@ body {
   box-shadow: none !important;
   outline: none !important;
 }
+
+.fc .fc-col-header-cell-cushion {
+  text-transform: capitalize;
+}

@@ -24,24 +24,47 @@ interface AppointmentsDB {
 export const createAppointment = async (
   data: AppointmentData,
 ): Promise<boolean> => {
-  const { data: patientData, error: patientError } = await supabase
-    .from("patients")
-    .insert({
-      full_name: data.patientName,
-      phone: data.phone,
-      guardian_name: data.guardianName,
-    })
-    .select("id")
-    .single();
+  let patientId = "";
 
-  if (patientError) {
-    throw new Error(`Erro ao criar paciente: ${patientError.message}`);
+  const { data: existingPatient } = await supabase
+    .from("patients")
+    .select("id")
+    .eq("full_name", data.patientName)
+    .eq("phone", data.phone)
+    .maybeSingle();
+
+  if (existingPatient) {
+    console.log("Este paciente já existe, reaproveitando id...");
+    patientId = existingPatient.id;
+
+    await supabase
+      .from("patients")
+      .update({ phone: data.phone })
+      .eq("id", patientId);
+  } else {
+    console.log("Paciente novo, cadastrando...");
+
+    const { data: newPatient, error: patientError } = await supabase
+      .from("patients")
+      .insert({
+        full_name: data.patientName,
+        phone: data.phone,
+        guardian_name: data.guardianName,
+      })
+      .select("id")
+      .single();
+
+    if (patientError) {
+      throw new Error(`Erro ao criar paciente: ${patientError.message}`);
+    }
+
+    patientId = newPatient.id;
   }
 
   const { error: appointmentError } = await supabase
     .from("appointments")
     .insert({
-      patient_id: patientData.id,
+      patient_id: patientId,
       start_time: data.start,
       end_time: data.end,
       notes: data.notes,
