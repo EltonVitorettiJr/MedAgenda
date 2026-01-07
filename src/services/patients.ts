@@ -35,12 +35,15 @@ export const createPatient = async (data: PatientsData): Promise<void> => {
 };
 
 export const getPatients = async () => {
-  const { data, error } = await supabase.from("patients").select(`
+  const { data, error } = await supabase
+    .from("patients")
+    .select(`
       id,
       full_name,
       phone,
       guardian_name
-    `);
+    `)
+    .order("full_name", { ascending: true });
 
   if (error) {
     throw new Error(error.message);

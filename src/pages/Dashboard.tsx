@@ -8,13 +8,13 @@ import {
   type SubmitHandler,
   useForm,
 } from "react-hook-form";
+import Select, { type ClassNamesConfig } from "react-select";
 import { toast } from "react-toastify";
 import Agenda from "../components/Agenda";
 import AppointmentTypeSelector from "../components/AppointmentTypeSelector";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import Modal from "../components/Modal";
-import Select from "../components/Select";
 import { appointmentSchema } from "../schemas/appointmentSchema";
 import {
   createAppointment,
@@ -37,6 +37,33 @@ interface OptionsProps {
   phone: string;
 }
 
+// biome-ignore lint/suspicious/noExplicitAny: <Usado o type ANY pois é apenas a estilização de um componente>
+const selectStyles: ClassNamesConfig<any> = {
+  control: ({ isFocused }) =>
+    `!w-full !bg-gray-200 !rounded-xl !text-sm !outline-none !shadow-none !border-none
+      !min-h-[42px] !ring-2 !pl-2
+      ${isFocused ? "!ring-primary-500" : "!ring-gray-400"}`,
+
+  singleValue: () => "!text-gray-900",
+
+  placeholder: () => "!text-gray-500",
+
+  input: () => "!text-gray-900",
+
+  menu: () =>
+    "!bg-white !rounded-xl !mt-2 !shadow-xl !border !border-gray-100 !overflow-hidden",
+
+  option: ({ isSelected, isFocused }) =>
+    `!px-4 !py-2 !text-sm
+      ${
+        isSelected
+          ? "!bg-primary-500 !text-white"
+          : isFocused
+            ? "!bg-primary-500/10 !text-gray-900"
+            : "!text-gray-700"
+      }`,
+};
+
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [events, setEvents] = useState<AppointmentEvent[]>([]);
@@ -47,6 +74,8 @@ const Dashboard = () => {
   const [patients, setPatients] = useState<OptionsProps[]>([]);
 
   const appontmentTypeId = useId();
+  const patientSelectId = useId();
+  const healthInsuranceSelectId = useId();
 
   const healthInsuranceOptions = [
     { value: "UNIMED", label: "UNIMED" },
@@ -79,7 +108,7 @@ const Dashboard = () => {
     setPatients(newPatients);
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: explanation
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <Não feito a função dentro do useEffect pois é utilizada em outras funções>
   useEffect(() => {
     fetchEvents();
     fetchPatients();
@@ -245,23 +274,41 @@ const Dashboard = () => {
           >
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Select
-                  label="Paciente"
-                  {...register("patientId")}
-                  options={[
-                    { value: "", label: "Selecione um paciente" },
-                    ...patients,
-                  ]}
+                <label htmlFor={patientSelectId}>Paciente</label>
+                <Controller
+                  name="patientId"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Select<OptionsProps>
+                      id={patientSelectId}
+                      placeholder="Selecione um Paciente..."
+                      options={patients}
+                      value={patients.find((c) => c.value === value)}
+                      onChange={(val) => onChange(val?.value)}
+                      classNames={selectStyles}
+                    />
+                  )}
                 />
                 <span className="text-red-500 min-h-5 text-sm">
                   {errors.patientId?.message}
                 </span>
               </div>
               <div>
-                <Select
-                  label="Convênio"
-                  {...register("healthInsurance")}
-                  options={healthInsuranceOptions}
+                <label htmlFor={healthInsuranceSelectId}>Convênio</label>
+                <Controller
+                  name="healthInsurance"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Select
+                      id={healthInsuranceSelectId}
+                      options={healthInsuranceOptions}
+                      value={healthInsuranceOptions.find(
+                        (c) => c.value === value,
+                      )}
+                      onChange={(val) => onChange(val?.value)}
+                      classNames={selectStyles}
+                    />
+                  )}
                 />
                 <span className="text-red-500 min-h-5 text-sm">
                   {errors.healthInsurance?.message}

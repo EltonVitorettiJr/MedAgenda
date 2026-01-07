@@ -106,3 +106,7 @@ body {
 .fc .fc-col-header-cell-cushion {
   text-transform: capitalize;
 }
+
+.css-13cymwt-control {
+  @apply bg-gray-200 border-none rounded-xl text-gray-900 outline-none ring-2 ring-gray-400 focus:ring-primary-500
+}

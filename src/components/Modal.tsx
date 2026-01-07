@@ -17,7 +17,7 @@ const Modal = ({ children, isOpen, onClose, title }: ModalProps) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="w-full max-w-lg mx-4 relative">
+      <div className="w-full max-w-150 mx-4 relative">
         <Card className="shadow-2xl animate-fade-in-down">
           {/* Cabeçalho */}
           <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">

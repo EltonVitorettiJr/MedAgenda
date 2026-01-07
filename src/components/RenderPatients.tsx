@@ -45,17 +45,17 @@ const RenderPatients = ({
                 size={26}
               />
             </button>
-            <div className="flex items-center justify-start gap-1 border-b border-gray-600 h-6">
+            <div className="flex items-center justify-start gap-1.5 border-b border-gray-600 h-auto">
               <User size={16} />
               <h2>Paciente: {patient.fullName}</h2>
             </div>
             {patient.guardianName && (
-              <div className="flex items-center justify-start gap-1 border-b border-gray-600 h-6">
+              <div className="flex items-center justify-start gap-1.5 border-b border-gray-600 h-auto">
                 <ShieldUser size={16} />
                 <h3>Responsável: {patient.guardianName}</h3>
               </div>
             )}
-            <div className="flex items-center justify-start gap-1 border-b border-gray-600 h-6">
+            <div className="flex items-center justify-start gap-1.5 border-b border-gray-600 h-auto">
               <Phone size={16} />
               <h4>Telefone: {patient.phone}</h4>
             </div>
