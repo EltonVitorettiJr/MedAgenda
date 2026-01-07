@@ -1,4 +1,4 @@
-<h1 align="center">MedAgenda (Agenda Dr. Omar)</h1>
+<h1 align="center">MedAgenda</h1>
 
 <h3 align="center">Sistema de Gestão de Agendamentos Médicos</h3>
 
