@@ -1,73 +1,100 @@
-# React + TypeScript + Vite
+<h1 align="center">MedAgenda (Agenda Dr. Omar)</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<h3 align="center">Sistema de Gestão de Agendamentos Médicos</h3>
 
-Currently, two official plugins are available:
+<br>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<p align="center">
+  <a href="#art-sobre-o-projeto">Sobre o Projeto</a> | 
+  <a href="#computer-tecnologias-usadas">Tecnologias Usadas</a> | 
+  <a href="#package-como-rodar-o-projeto-localmente">Como Rodar</a>
+</p>
 
-## React Compiler
+<br>
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# :art: Sobre o Projeto
 
-## Expanding the ESLint configuration
+Este é um projeto Front-end moderno desenvolvido para gerenciar a rotina de atendimentos de um consultório médico. O sistema oferece uma interface intuitiva para cadastro de pacientes e controle total da agenda, substituindo processos manuais por uma solução digital ágil.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+O projeto utiliza **Supabase** como Backend-as-a-Service (BaaS), garantindo autenticação segura e um banco de dados PostgreSQL em tempo real, integrado a um calendário interativo poderoso.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+<br>
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## ✨ Features Principais
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+* **Gestão de Agenda Visual:** Visualização de consultas por Dia, Semana ou Mês utilizando o **FullCalendar**.
+* **Controle de Pacientes:** Cadastro completo, edição e listagem de pacientes com busca inteligente (pelo ID/Nome).
+* **Agendamento Inteligente:** * Criação de consultas vinculadas a pacientes existentes.
+    * Edição de horários e observações.
+    * Prevenção de conflitos de horário.
+* **Validação Robusta:** Formulários seguros com feedback visual imediato para o usuário.
+* **Notificações:** Feedback em tempo real (Toasts) para ações de sucesso ou erro.
+
+# :computer: Tecnologias Usadas
+
+### Core & Interface
+* **React 19** (A versão mais recente da biblioteca)
+* **Vite** (Build tool ultra-rápida)
+* **TypeScript** (Tipagem estática para segurança do código)
+* **Tailwind CSS v4** (Estilização utility-first de última geração)
+* **Lucide React** (Ícones modernos e leves)
+
+### Funcionalidades & Lógica
+* **Supabase** (Banco de dados, Auth e API)
+* **FullCalendar** (Gestão complexa de calendário e eventos)
+* **React Hook Form** (Gerenciamento de formulários performático)
+* **Yup** (Schema validation para garantir a integridade dos dados)
+* **React Router v7** (Roteamento da aplicação)
+* **React Toastify** (Notificações em tela)
+
+### Qualidade de Código
+* **Biome** (Formatador e Linter de alta performance)
+* **ESLint** (Padronização de código)
+
+# :package: Como Rodar o Projeto Localmente
+
+1.  **Clone o repositório:**
+    ```sh
+    git clone [https://github.com/SEU_USUARIO/agenda-dr-omar.git](https://github.com/SEU_USUARIO/agenda-dr-omar.git)
+    cd agenda-dr-omar
+    ```
+
+2.  **Instale as dependências:**
+    ```sh
+    npm install
+    # ou
+    yarn install
+    ```
+
+3.  **Configure as Variáveis de Ambiente:**
+    Crie um arquivo `.env` na raiz do projeto seguindo o modelo abaixo.
+
+4.  **Rodando o projeto:**
+    ```sh
+    npm run dev
+    # ou
+    yarn dev
+    ```
+
+5.  **Acesse:**
+    O projeto estará disponível em `http://localhost:5173`.
+
+## 📦 Configuração de Variáveis (.env)
+
+Para o projeto conectar corretamente ao banco de dados, crie um arquivo `.env` na raiz com as chaves do seu projeto no Supabase:
+```env
+VITE_SUPABASE_URL=sua_url_do_supabase
+VITE_SUPABASE_ANON_KEY=sua_chave_anonima_publica
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+# :bug: Problemas
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Sinta-se à vontade para registrar problemas caso encontre bugs ou tenha sugestões de melhoria!
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+<p align="center"> Feito com 💜 por <strong>Elton Vitoretti Jr</strong> sob tutoria do DevClub.
+
+Entre em contato: <a href="https://www.google.com/search?q=https://www.linkedin.com/in/elton-vitoretti-jr">LinkedIn</a> </p>
+
+```env
+VITE_SUPABASE_URL=sua_url_do_supabase
+VITE_SUPABASE_ANON_KEY=sua_chave_anonima_publica
