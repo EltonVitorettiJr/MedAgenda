@@ -55,7 +55,7 @@ O projeto utiliza **Supabase** como Backend-as-a-Service (BaaS), garantindo aute
 
 1.  **Clone o repositório:**
     ```sh
-    git clone [https://github.com/SEU_USUARIO/agenda-dr-omar.git](https://github.com/SEU_USUARIO/agenda-dr-omar.git)
+    git clone [https://github.com/SEU_USUARIO/MedAgenda.git](https://github.com/SEU_USUARIO/MedAgenda.git)
     cd agenda-dr-omar
     ```
 
