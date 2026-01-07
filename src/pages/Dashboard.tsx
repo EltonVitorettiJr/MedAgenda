@@ -62,6 +62,7 @@ const Dashboard = () => {
       setEvents(data);
     } catch (err) {
       console.error("Erro ao buscar agenda:", err);
+      toast.error("Erro ao carregar agendamentos.");
     }
   };
 
@@ -99,12 +100,12 @@ const Dashboard = () => {
   };
 
   const handleEventClick = async (arg: EventClickArg) => {
-    const { id, end, start, title, extendedProps } = arg.event;
+    const { id, end, start, extendedProps } = arg.event;
 
     setEditingId(id);
     setEditingPatientId(extendedProps.patientId);
 
-    setValue("patientName", title);
+    setValue("patientId", extendedProps.patientId);
     setValue("notes", extendedProps.notes);
     setValue("phone", extendedProps.phone);
     setValue("guardianName", extendedProps.guardianName);
@@ -174,7 +175,7 @@ const Dashboard = () => {
       };
 
       if (editingId && editingPatientId) {
-        await editAppointment(editingId, editingPatientId, formatedData);
+        await editAppointment(editingId, formatedData);
 
         toast.success("Agendamento alterado com sucesso!");
       } else {
@@ -192,7 +193,7 @@ const Dashboard = () => {
     }
   };
 
-  const selectedPatientVal = watch("patientName");
+  const selectedPatientVal = watch("patientId");
 
   useEffect(() => {
     if (selectedPatientVal && patients.length > 0) {
@@ -246,11 +247,14 @@ const Dashboard = () => {
               <div>
                 <Select
                   label="Paciente"
-                  {...register("patientName")}
-                  options={patients}
+                  {...register("patientId")}
+                  options={[
+                    { value: "", label: "Selecione um paciente" },
+                    ...patients,
+                  ]}
                 />
                 <span className="text-red-500 min-h-5 text-sm">
-                  {errors.patientName?.message}
+                  {errors.patientId?.message}
                 </span>
               </div>
               <div>
@@ -260,7 +264,7 @@ const Dashboard = () => {
                   options={healthInsuranceOptions}
                 />
                 <span className="text-red-500 min-h-5 text-sm">
-                  {errors.patientName?.message}
+                  {errors.healthInsurance?.message}
                 </span>
               </div>
             </div>
@@ -280,7 +284,7 @@ const Dashboard = () => {
                   />
                 )}
               />
-              <span className="text-red-500 text-xs">
+              <span className="text-red-500 min-h-5 text-sm">
                 {errors.appointmentType?.message}
               </span>
             </div>
@@ -346,12 +350,12 @@ const Dashboard = () => {
                 label="Observação"
                 {...register("notes")}
                 type="text"
-                placeholder="Ex: nome do remédio, etc..."
+                placeholder="Ex: remédio, motivo da consulta, etc..."
                 fullWidth
               />
             </div>
 
-            <div className="flex items-center justify-end gap-3">
+            <div className="flex items-center justify-end gap-4">
               {editingId ? (
                 <Button
                   type="button"
@@ -365,7 +369,11 @@ const Dashboard = () => {
                 <Button onClick={handleClose}>Cancelar</Button>
               )}
 
-              <Button type="submit" isLoading={isSubmitting}>
+              <Button
+                type="submit"
+                isLoading={isSubmitting}
+                className="ring-2 ring-primary-500"
+              >
                 Agendar
               </Button>
             </div>

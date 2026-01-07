@@ -11,12 +11,14 @@ import { patientSchema } from "../schemas/patientSchema";
 import {
   createPatient,
   deletePatient,
+  editPatient,
   getPatients,
 } from "../services/patients";
 import type { PatientsData, PatientsType } from "../types/patients";
 
 const Patients = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [editingId, setEditingId] = useState<string>("");
   const [patients, setPatients] = useState<PatientsType[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
@@ -34,10 +36,20 @@ const Patients = () => {
     setIsModalOpen(false);
   };
 
+  const handleEdit = async (patientId: string, data: PatientsData) => {
+    if (!patientId) return;
+
+    setEditingId(patientId);
+
+    setIsModalOpen(true);
+
+    setValue("patientName", data.patientName);
+    setValue("guardianName", data.guardianName);
+    setValue("phone", data.phone);
+  };
+
   const handleDelete = async (patientId: string) => {
-    if (!patientId) {
-      return;
-    }
+    if (!patientId) return;
 
     if (confirm("Tem certeza que deseja deletar esse paciente?")) {
       try {
@@ -61,6 +73,7 @@ const Patients = () => {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<PatientsData>({
     resolver: yupResolver(patientSchema) as Resolver<PatientsData>,
@@ -68,9 +81,15 @@ const Patients = () => {
 
   const onSubmit: SubmitHandler<PatientsData> = async (data) => {
     try {
-      await createPatient(data);
+      if (editingId) {
+        await editPatient(editingId, data);
 
-      toast.success("Paciente cadastrado.");
+        toast.success("Paciente editado.");
+      } else {
+        await createPatient(data);
+
+        toast.success("Paciente cadastrado.");
+      }
 
       const updatedPatients = await getPatients();
 
@@ -79,6 +98,11 @@ const Patients = () => {
       handleClose();
     } catch (err) {
       console.error(err);
+      if (editingId) {
+        toast.error("Erro ao editar paciente. Tente novamente.");
+        return;
+      }
+
       toast.error("Erro ao cadastrar paciente. Tente novamente.");
     }
   };
@@ -107,6 +131,7 @@ const Patients = () => {
         <RenderPatients
           patients={filteredPatients}
           handleDelete={handleDelete}
+          handleEdit={handleEdit}
         />
         <Modal
           isOpen={isModalOpen}
@@ -115,26 +140,38 @@ const Patients = () => {
         >
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-4 transition-all"
           >
             <div>
               <Input label="Nome do Paciente" {...register("patientName")} />
-              {errors.patientName?.message}
+              <span className="text-red-500 min-h-5 text-sm">
+                {errors.patientName?.message}
+              </span>
             </div>
             <div>
               <Input
                 label="Nome do Responsável"
                 {...register("guardianName")}
               />
-              {errors.guardianName?.message}
+              <span className="text-red-500 min-h-5 text-sm">
+                {errors.guardianName?.message}
+              </span>
             </div>
             <div>
               <Input label="Telefone" {...register("phone")} />
-              {errors.phone?.message}
+              <span className="text-red-500 min-h-5 text-sm">
+                {errors.phone?.message}
+              </span>
             </div>
-            <Button isLoading={isSubmitting} type="submit">
-              Cadastrar
-            </Button>
+            {editingId ? (
+              <Button isLoading={isSubmitting} type="submit">
+                Editar
+              </Button>
+            ) : (
+              <Button isLoading={isSubmitting} type="submit">
+                Cadastrar
+              </Button>
+            )}
           </form>
         </Modal>
       </div>

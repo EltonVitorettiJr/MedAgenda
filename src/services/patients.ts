@@ -17,7 +17,7 @@ export const createPatient = async (data: PatientsData): Promise<void> => {
     .maybeSingle();
 
   if (existingPatient) {
-    console.log("Este paciente já esta cadastrado.");
+    console.info("Este paciente já esta cadastrado.");
   }
 
   const { error } = await supabase
@@ -30,9 +30,8 @@ export const createPatient = async (data: PatientsData): Promise<void> => {
     .single();
 
   if (error) {
-    console.log("Erro ao cadastrar paciente, tente novamente.");
+    console.error("Erro ao cadastrar paciente, tente novamente.");
   }
-  console.log("Paciente cadastrado com sucesso.");
 };
 
 export const getPatients = async () => {
@@ -57,6 +56,25 @@ export const getPatients = async () => {
   }));
 
   return formatedPatients;
+};
+
+export const editPatient = async (patientId: string, data: PatientsData) => {
+  if (!patientId) {
+    throw new Error("Paciente não encontrado.");
+  }
+
+  const { error } = await supabase
+    .from("patients")
+    .update({
+      full_name: data.patientName,
+      phone: data.phone,
+      guardian_name: data.guardianName,
+    })
+    .eq("id", patientId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
 };
 
 export const deletePatient = async (patientId: string) => {

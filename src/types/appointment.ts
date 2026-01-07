@@ -17,7 +17,7 @@ export const AppointmentType = {
 } as const;
 
 export interface AppointmentData {
-  patientName: string;
+  patientId: string;
   notes?: string;
   start: string;
   end: string;

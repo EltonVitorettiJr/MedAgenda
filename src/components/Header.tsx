@@ -9,18 +9,29 @@ const Header = () => {
   const { pathname } = useLocation();
 
   return (
-    <header className="w-full flex items-center justify-around border border-gray-400 bg-gray-200">
+    <header
+      className="w-full flex items-center justify-around
+    border border-gray-400 bg-gray-200"
+    >
       <div>
         <Link to="/agenda" className="flex items-center justify-center">
           <img src={Logo} alt="Logo MedAgenda" className="w-20" />
           <h1 className="text-primary-500 font-bold text-2xl">MedAgenda</h1>
         </Link>
       </div>
-      <nav className="flex gap-3 items-center justify-center text-xl font-medium text-gray-600">
+      <nav
+        className="flex gap-3 items-center justify-center text-xl
+      font-medium text-gray-600"
+      >
         <Link
           to="/agenda"
-          className={`
-          ${pathname === "/agenda" ? "border-b-3 border-primary-500 text-primary-500" : ""}
+          className={`hover:border-b-3 hover:border-primary-500
+             hover:text-primary-500 transition-colors
+          ${
+            pathname === "/agenda"
+              ? "border-b-3 border-primary-500 text-primary-500"
+              : ""
+          }
           `}
         >
           Agenda
@@ -28,14 +39,22 @@ const Header = () => {
         <p className="font-normal">|</p>
         <Link
           to="/pacientes"
-          className={`
-          ${pathname === "/pacientes" ? "border-b-3 border-primary-500 text-primary-500" : ""}
+          className={`hover:border-b-3 hover:border-primary-500
+            hover:text-primary-500 transition-colors
+          ${
+            pathname === "/pacientes"
+              ? "border-b-3 border-primary-500 text-primary-500"
+              : ""
+          }
           `}
         >
           Pacientes
         </Link>
       </nav>
-      <div className="flex gap-4 text-gray-600 items-center justify-center">
+      <div
+        className="flex gap-4 text-gray-600 items-center
+      justify-center"
+      >
         <p>
           Logado com: <br />
           <span className="text-gray-700 font-medium">
@@ -45,7 +64,8 @@ const Header = () => {
         <p className="text-xl">|</p>
         <button
           type="button"
-          className="flex justify-center items-center gap-2 hover:text-red-400 cursor-pointer"
+          className="flex justify-center items-center gap-2
+          hover:text-red-400 cursor-pointer transition-colors"
           onClick={logOutSupabase}
         >
           <LogOut />

@@ -34,7 +34,7 @@
 }
 
 body {
-    @apply bg-gray-50 text-gray-900 min-h-screen font-sans
+    @apply bg-gray-50 text-gray-900 min-h-screen font-sans transition-all
 }
 
 .container-app {
@@ -54,6 +54,7 @@ body {
   --fc-today-bg-color: #f8fafc;  /* gray-50 */
   --fc-event-bg-color: var(--color-primary-500);
   --fc-event-border-color: var(--color-primary-500);
+  @apply transition-all
 }
 
 /* Remove o sublinhado azul feio nos links de dia */

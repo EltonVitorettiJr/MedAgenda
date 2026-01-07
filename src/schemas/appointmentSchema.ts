@@ -1,10 +1,10 @@
 import * as yup from "yup";
 
 export const appointmentSchema = yup.object({
-  patientName: yup.string().required("Nome obrigatório"),
-  guardianName: yup.string().required("Responsável obrigatório"),
-  phone: yup.string().required("Telefone obrigatório"),
-  healthInsurance: yup.string().required("Convênio obrigatório"),
+  patientId: yup.string().required("O paciente é obrigatório."),
+  guardianName: yup.string().required("O Responsável é obrigatório."),
+  phone: yup.string().required("O Telefone é obrigatório."),
+  healthInsurance: yup.string().required("O Convênio é obrigatório."),
   appointmentType: yup.string().required("Tipo obrigatório"),
   notes: yup.string().optional(),
   start: yup.string().required(),

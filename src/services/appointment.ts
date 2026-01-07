@@ -2,7 +2,6 @@ import type {
   AppointmentData,
   AppointmentEvent,
   AppointmentType,
-  HealthInsurance,
 } from "../types/appointment";
 import { supabase } from "./supabase";
 
@@ -16,49 +15,25 @@ interface AppointmentsDB {
   appointment_type: string;
   patients: {
     full_name: string;
-    phone: string | null;
-    guardian_name: string | null;
-  } | null;
+    phone: string;
+    guardian_name: string;
+  };
 }
 
 export const createAppointment = async (
   data: AppointmentData,
 ): Promise<boolean> => {
-  let patientId = "";
+  const patientId = data.patientId;
 
-  const { data: existingPatient } = await supabase
-    .from("patients")
-    .select("id")
-    .eq("full_name", data.patientName)
-    .eq("phone", data.phone)
-    .maybeSingle();
+  if (!patientId) {
+    throw new Error(`Paciente não encontrado ou não cadastrado.`);
+  }
 
-  if (existingPatient) {
-    console.log("Este paciente já existe, reaproveitando id...");
-    patientId = existingPatient.id;
-
+  if (data.phone || data.guardianName) {
     await supabase
       .from("patients")
-      .update({ phone: data.phone })
+      .update({ phone: data.phone, guardian_name: data.guardianName })
       .eq("id", patientId);
-  } else {
-    console.log("Paciente novo, cadastrando...");
-
-    const { data: newPatient, error: patientError } = await supabase
-      .from("patients")
-      .insert({
-        full_name: data.patientName,
-        phone: data.phone,
-        guardian_name: data.guardianName,
-      })
-      .select("id")
-      .single();
-
-    if (patientError) {
-      throw new Error(`Erro ao criar paciente: ${patientError.message}`);
-    }
-
-    patientId = newPatient.id;
   }
 
   const { error: appointmentError } = await supabase
@@ -100,16 +75,16 @@ export const getAppointments = async () => {
   const formattedAppointments: AppointmentEvent[] = appointments.map(
     (appointment) => ({
       id: appointment.id,
-      title: appointment.patients?.full_name || "Sem Nome",
+      title: appointment.patients.full_name,
       start: appointment.start_time,
       end: appointment.end_time,
       extendedProps: {
         notes: appointment.notes,
         patientId: appointment.patient_id,
-        healthInsurance: appointment.health_insurance as HealthInsurance,
+        healthInsurance: appointment.health_insurance,
         appointmentType: appointment.appointment_type as AppointmentType,
-        phone: appointment.patients?.phone ?? null,
-        guardianName: appointment.patients?.guardian_name ?? null,
+        phone: appointment.patients.phone,
+        guardianName: appointment.patients.guardian_name,
       },
       backgroundColor:
         appointment.appointment_type === "RETORNO" ? "#F59E0B" : "#0EA5E9",
@@ -122,25 +97,12 @@ export const getAppointments = async () => {
 
 export const editAppointment = async (
   appointmentId: string,
-  patient_id: string,
   data: AppointmentData,
 ) => {
-  const { error: patientError } = await supabase
-    .from("appointments")
-    .update({
-      full_name: data.patientName,
-      phone: data.phone,
-      guardian_name: data.guardianName,
-    })
-    .eq("id", patient_id);
-
-  if (patientError) {
-    throw new Error(patientError.message);
-  }
-
   const { error: appointmentError } = await supabase
     .from("appointments")
     .update({
+      patient_id: data.patientId,
       start_time: data.start,
       end_time: data.end,
       notes: data.notes,
