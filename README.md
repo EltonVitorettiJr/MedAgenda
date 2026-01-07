@@ -94,7 +94,3 @@ Sinta-se à vontade para registrar problemas caso encontre bugs ou tenha sugest�
 <p align="center"> Feito com 💜 por <strong>Elton Vitoretti Jr</strong> sob tutoria do DevClub.
 
 Entre em contato: <a href="https://www.google.com/search?q=https://www.linkedin.com/in/elton-vitoretti-jr">LinkedIn</a> </p>
-
-```env
-VITE_SUPABASE_URL=sua_url_do_supabase
-VITE_SUPABASE_ANON_KEY=sua_chave_anonima_publica
