@@ -416,11 +416,7 @@ const Dashboard = () => {
                 <Button onClick={handleClose}>Cancelar</Button>
               )}
 
-              <Button
-                type="submit"
-                isLoading={isSubmitting}
-                className="ring-2 ring-primary-500"
-              >
+              <Button type="submit" isLoading={isSubmitting}>
                 Agendar
               </Button>
             </div>

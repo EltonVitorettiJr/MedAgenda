@@ -24,9 +24,9 @@ const AppointmentTypeSelector = ({
       value: AppointmentType.RETORNO,
       label: "Retorno",
       activeClasses:
-        "bg-primary-500 text-white font-medium hover:opacity-70 ring-primary-500",
+        "bg-[#f5a723] text-white font-medium hover:opacity-70 ring-[#f5a723]",
       inactiveClasses:
-        "bg-transparent ring-primary-500 text-primary-500 font-medium hover:bg-primary-500/10",
+        "bg-transparent ring-[#f5a723] text-[#f5a723] font-medium hover:bg-[#f5a723]/10",
     },
   ];
 
