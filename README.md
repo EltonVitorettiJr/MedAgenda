@@ -12,6 +12,8 @@
 
 <br>
 
+<img src="https://res.cloudinary.com/dtgimo0rh/image/upload/Screenshot_1_nxmrmd.png" alt="Imagem Ilustrativa"/>
+
 # :art: Sobre o Projeto
 
 Este é um projeto Front-end moderno desenvolvido para gerenciar a rotina de atendimentos de um consultório médico. O sistema oferece uma interface intuitiva para cadastro de pacientes e controle total da agenda, substituindo processos manuais por uma solução digital ágil.
